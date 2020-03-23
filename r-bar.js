@@ -3,37 +3,34 @@ import RDropdownButton from 'r-dropdown-button';
 import './index.css';
 
 export default class RBar extends Component{
-  constructor(props){
-    super(props); 
-    var {vertical} = this.props;
-  }
-  getStyle(h,active){
-    var buttonStyle = typeof this.props.buttonStyle === 'function'?this.props.buttonStyle(h):this.props.buttonStyle;
-    var customStyle = typeof h.style === 'function'?h.style(h):h.style;
-    var show = h.show?h.show():undefined;
+  getStyle(h){
+    var buttonStyle = this.getValue(this.props.buttonStyle,h);
+    var customStyle = this.getValue(h.style,h);
+    var show = this.getValue(h.show,h);
     var obj = {...buttonStyle,...customStyle};
     if(show === false){obj.display = 'none';}
     return obj;
   }
   getButton(h,i){
-    var active = h.value === this.activeValue;
+    var item = this.getValue(h);
     var {onClick} = this.props;
     return (
       <RDropdownButton {...h} 
         iconStyle={this.iconStyle}
-        className={active?'active':''} key={i} 
-        style={this.getStyle(h,active)}
-        onClick={()=>onClick(h,i)} disabled={active?'disabled':''}
+        className={this.getValue(h.className)} key={i} 
+        style={this.getStyle(h)}
+        onClick={()=>onClick(h,i)}
       />
-      
     )
   }
+  getValue(value,p){return typeof value === 'function'?value(p===undefined?this.props:p):value}
   render(){
-    var {items,active,className,id,vertical} = this.props;
-    var show = typeof this.props.show === 'function'?this.props.show():this.props.show;
-    var style = typeof this.props.style === 'function'?this.props.style():this.props.style;
+    var {id,vertical} = this.props;
+    var show = this.getValue(this.props.show);
+    var style = this.getValue(this.props.style);
+    var className = this.getValue(this.props.className);
+    var items = this.getValue(this.props.items);
     if(show === false){return ''}
-    this.activeValue = typeof active === 'function'?active():active;
     return (
       <div className={`r-bar${vertical?' r-bar-vertical':' r-bar-horizontal'}${className?' ' + className:''}`} id={id} style={style}>
         {items.length > 0 &&

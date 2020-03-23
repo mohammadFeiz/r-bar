@@ -19,10 +19,6 @@
   padding:12px; 
 
 }
-.r-bar button.active{
-  color:#fff;
-  background:#2c3645;
-}
 
 .r-bar-vertical button{
   display:flex;

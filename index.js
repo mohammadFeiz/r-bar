@@ -48,22 +48,18 @@ var RBar = /*#__PURE__*/function (_Component) {
 
   var _super = _createSuper(RBar);
 
-  function RBar(props) {
-    var _this;
-
+  function RBar() {
     _classCallCheck(this, RBar);
 
-    _this = _super.call(this, props);
-    var vertical = _this.props.vertical;
-    return _this;
+    return _super.apply(this, arguments);
   }
 
   _createClass(RBar, [{
     key: "getStyle",
-    value: function getStyle(h, active) {
-      var buttonStyle = typeof this.props.buttonStyle === 'function' ? this.props.buttonStyle(h) : this.props.buttonStyle;
-      var customStyle = typeof h.style === 'function' ? h.style(h) : h.style;
-      var show = h.show ? h.show() : undefined;
+    value: function getStyle(h) {
+      var buttonStyle = this.getValue(this.props.buttonStyle, h);
+      var customStyle = this.getValue(h.style, h);
+      var show = this.getValue(h.show, h);
       var obj = { ...buttonStyle,
         ...customStyle
       };
@@ -77,38 +73,40 @@ var RBar = /*#__PURE__*/function (_Component) {
   }, {
     key: "getButton",
     value: function getButton(h, i) {
-      var active = h.value === this.activeValue;
+      var item = this.getValue(h);
       var _onClick = this.props.onClick;
       return /*#__PURE__*/_react.default.createElement(_rDropdownButton.default, _extends({}, h, {
         iconStyle: this.iconStyle,
-        className: active ? 'active' : '',
+        className: this.getValue(h.className),
         key: i,
-        style: this.getStyle(h, active),
+        style: this.getStyle(h),
         onClick: function onClick() {
           return _onClick(h, i);
-        },
-        disabled: active ? 'disabled' : ''
+        }
       }));
+    }
+  }, {
+    key: "getValue",
+    value: function getValue(value, p) {
+      return typeof value === 'function' ? value(p === undefined ? this.props : p) : value;
     }
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
+      var _this = this;
 
       var _this$props = this.props,
-          items = _this$props.items,
-          active = _this$props.active,
-          className = _this$props.className,
           id = _this$props.id,
           vertical = _this$props.vertical;
-      var show = typeof this.props.show === 'function' ? this.props.show() : this.props.show;
-      var style = typeof this.props.style === 'function' ? this.props.style() : this.props.style;
+      var show = this.getValue(this.props.show);
+      var style = this.getValue(this.props.style);
+      var className = this.getValue(this.props.className);
+      var items = this.getValue(this.props.items);
 
       if (show === false) {
         return '';
       }
 
-      this.activeValue = typeof active === 'function' ? active() : active;
       return /*#__PURE__*/_react.default.createElement("div", {
         className: "r-bar".concat(vertical ? ' r-bar-vertical' : ' r-bar-horizontal').concat(className ? ' ' + className : ''),
         id: id,
@@ -118,13 +116,13 @@ var RBar = /*#__PURE__*/function (_Component) {
       }, items.filter(function (h) {
         return h.side !== 'end';
       }).map(function (h, i) {
-        return _this2.getButton(h, i);
+        return _this.getButton(h, i);
       })), /*#__PURE__*/_react.default.createElement("div", {
         className: "r-bar-end r-bar-sides"
       }, items.filter(function (h) {
         return h.side === 'end';
       }).map(function (h, i) {
-        return _this2.getButton(h, i);
+        return _this.getButton(h, i);
       }))));
     }
   }]);
