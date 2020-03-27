@@ -12,7 +12,7 @@
   },
   "keywords": [],
   "dependencies": {
-    "r-dropdown-button": "^1.0.5",
+    "r-dropdown-button": "^1.0.6",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },
