@@ -59,15 +59,9 @@ var RBar = /*#__PURE__*/function (_Component) {
     value: function getStyle(h) {
       var buttonStyle = this.getValue(this.props.buttonStyle, h);
       var customStyle = this.getValue(h.style, h);
-      var show = this.getValue(h.show, h);
       var obj = { ...buttonStyle,
         ...customStyle
       };
-
-      if (show === false) {
-        obj.display = 'none';
-      }
-
       return obj;
     }
   }, {
@@ -80,8 +74,9 @@ var RBar = /*#__PURE__*/function (_Component) {
         className: this.getValue(h.className),
         key: i,
         style: this.getStyle(h),
-        onClick: function onClick() {
-          return _onClick(h, i);
+        onClick: function onClick(ITEM) {
+          var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : i;
+          return _onClick(ITEM, index);
         }
       }));
     }
@@ -114,13 +109,13 @@ var RBar = /*#__PURE__*/function (_Component) {
       }, items.length > 0 && /*#__PURE__*/_react.default.createElement(_react.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
         className: "r-bar-start r-bar-sides"
       }, items.filter(function (h) {
-        return h.side !== 'end';
+        return h.side !== 'end' && _this.getValue(h.show, h) !== false;
       }).map(function (h, i) {
         return _this.getButton(h, i);
       })), /*#__PURE__*/_react.default.createElement("div", {
         className: "r-bar-end r-bar-sides"
       }, items.filter(function (h) {
-        return h.side === 'end';
+        return h.side === 'end' && _this.getValue(h.show, h) !== false;
       }).map(function (h, i) {
         return _this.getButton(h, i);
       }))));

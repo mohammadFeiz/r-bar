@@ -6,9 +6,7 @@ export default class RBar extends Component{
   getStyle(h){
     var buttonStyle = this.getValue(this.props.buttonStyle,h);
     var customStyle = this.getValue(h.style,h);
-    var show = this.getValue(h.show,h);
     var obj = {...buttonStyle,...customStyle};
-    if(show === false){obj.display = 'none';}
     return obj;
   }
   getButton(h,i){
@@ -19,7 +17,7 @@ export default class RBar extends Component{
         iconStyle={this.iconStyle}
         className={this.getValue(h.className)} key={i} 
         style={this.getStyle(h)}
-        onClick={()=>onClick(h,i)}
+        onClick={(ITEM,index = i)=>onClick(ITEM,index)}
       />
     )
   }
@@ -36,10 +34,14 @@ export default class RBar extends Component{
         {items.length > 0 &&
           <Fragment>
             <div className='r-bar-start r-bar-sides'>
-              {items.filter((h)=>h.side !== 'end').map((h,i)=>this.getButton(h,i))}
+              {
+                items.filter((h)=>{return h.side !== 'end' && this.getValue(h.show,h) !== false}).map((h,i)=>this.getButton(h,i))
+              }
             </div>
             <div className='r-bar-end r-bar-sides'>
-              {items.filter((h)=>h.side === 'end').map((h,i)=>this.getButton(h,i))}
+              {
+                items.filter((h)=>h.side === 'end' && this.getValue(h.show,h) !== false).map((h,i)=>this.getButton(h,i))
+              }
             </div>
           </Fragment>
         }

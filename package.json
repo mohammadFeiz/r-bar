@@ -1,6 +1,6 @@
 {
   "name": "r-bar",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,7 @@
   },
   "keywords": [],
   "dependencies": {
-    "r-dropdown-button": "^1.0.4",
+    "r-dropdown-button": "^1.0.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },
