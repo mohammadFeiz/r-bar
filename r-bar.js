@@ -17,7 +17,7 @@ export default class RBar extends Component{
         iconStyle={this.iconStyle}
         className={this.getValue(h.className)} key={i} 
         style={this.getStyle(h)}
-        onClick={(ITEM,index = i)=>onClick(ITEM,index)}
+        onClick={(ITEM,index = i)=>item.onClick?item.onClick(ITEM,index):onClick(ITEM,index)}
       />
     )
   }

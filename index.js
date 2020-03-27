@@ -76,7 +76,7 @@ var RBar = /*#__PURE__*/function (_Component) {
         style: this.getStyle(h),
         onClick: function onClick(ITEM) {
           var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : i;
-          return _onClick(ITEM, index);
+          return item.onClick ? item.onClick(ITEM, index) : _onClick(ITEM, index);
         }
       }));
     }
